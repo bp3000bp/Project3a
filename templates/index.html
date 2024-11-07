@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stock Data Visualizer</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { max-width: 800px; margin: auto; text-align: center; }
+        h1 { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Stock Data Visualizer</h1>
+        <form method="POST">
+            <label for="symbol">Choose Symbol:</label>
+            <select id="symbol" name="symbol" required>
+                <option value="">Select a symbol</option>
+                {% for symbol in symbols %}
+                <option value="{{ symbol }}">{{ symbol }}</option>
+                {% endfor %}
+            </select>
+            <br><br>
+
+            <label for="chart_type">Choose Chart Type:</label>
+            <select id="chart_type" name="chart_type" required>
+                <option value="line">Line</option>
+                <option value="bar">Bar</option>
+            </select>
+            <br><br>
+
+            <label for="start_date">Start Date:</label>
+            <input type="date" id="start_date" name="start_date" required>
+            <br><br>
+
+            <label for="end_date">End Date:</label>
+            <input type="date" id="end_date" name="end_date" required>
+            <br><br>
+
+            <button type="submit">Submit</button>
+        </form>
+
+        {% if chart_data %}
+            <h2>Stock Data for {{ request.form.get("symbol") }}</h2>
+            {% if "data:image" in chart_data %}
+                <img src="{{ chart_data }}" alt="Stock Chart">
+            {% else %}
+                <p>{{ chart_data }}</p>
+            {% endif %}
+        {% endif %}
+    </div>
+</body>
+</html>
